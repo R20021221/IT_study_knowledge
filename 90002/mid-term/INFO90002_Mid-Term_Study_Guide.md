@@ -4,14 +4,58 @@
 
 ---
 
-## 目录
+## 完整知识点目录
 
-1. [数据库基础概念 (Week 1)](#1-数据库基础概念-week-1)
-2. [数据建模与 ER 模型 (Week 2)](#2-数据建模与-er-模型-week-2)
-3. [键 (Keys) 与逻辑设计 (Week 3)](#3-键-keys-与逻辑设计-week-3)
-4. [物理设计与 MySQL 数据类型 (Week 4-1)](#4-物理设计与-mysql-数据类型-week-4-1)
-5. [规范化 Normalisation (Week 4-2)](#5-规范化-normalisation-week-4-2)
-6. [常考题型与补充知识点](#6-常考题型与补充知识点)
+### Week 1 — 数据库基础概念
+- 1.1 Data vs Information（数据 vs 信息）
+- 1.2 数据的三种分类（Structured / Semi-Structured / Unstructured）
+- 1.3 DBMS 与 Database 的区别、CRUD 操作、DBMS 核心优势（含 Logical/Physical Data Independence）
+- 1.4 关系数据模型（Ted Codd 1970、二维表属性、术语对照表）
+- 1.5 Schema vs Instance、Schema on Write
+- 1.6 Cardinality vs Degree (Arity)
+- 1.7 Client-Server Architecture
+- 1.8 SQL 语言分类（DDL / DML / DCL）
+- 1.9 Constraints（约束）
+- 1.10 数据库开发生命周期概述（各阶段含义）
+
+### Week 2 — 数据建模与 ER 模型
+- 2.1 数据库开发生命周期（完整版 11 步）
+- 2.2 ER 模型核心概念：Entity（Strong/Weak）、Attributes（5 种类型 + Domain + Required/Optional + 命名规范 + MySQL Workbench 符号）、Relationships（Relationship vs Relationship Set、双向性）、FK 放在 MANY 方
+- 2.3 Connectivity vs Cardinality（(min, max) 表示法）
+- 2.4 Participation（Mandatory / Optional）
+- 2.5 Crow's Foot Notation（四种符号 + 实线/虚线的区别）
+- 2.6 M:M 关系的处理（拆解为两个 1:M + 弱实体）
+- 2.7 开发 ER 图的 8 步流程
+- 2.8 Entity vs Attribute 的设计选择
+- 2.9 Noun-Verb 分析法
+- 2.10 Business Rules（业务规则）
+
+### Week 3 — 键 (Keys) 与逻辑/物理设计
+- 3.1 Good Entity Selection（好的实体 vs 不应是实体的概念）
+- 3.2 键的层次结构（Superkey → Candidate Key → Primary Key）
+- 3.3 各类键的定义（Superkey / Candidate Key / PK / FK / Surrogate Key / Natural Key）
+- 3.4 Natural Key vs Surrogate Key（建模阶段 vs 实施阶段）
+- 3.5 主键的四个性质（Uniqueness / NOT NULL / Immutability / Minimality）
+- 3.6 Composite Key（复合键）
+- 3.7 Foreign Key 与 Referential Integrity（ON DELETE 选项、Weak Entity 用 CASCADE）
+- 3.8 Mandatory Participation = NOT NULL
+- 3.9 Toy Library Case Study（测试验证键的选择、DateReturned 不能做 PK）
+- 3.10 Relationship Degree（Unary / Binary / Ternary / N-ary）
+- 3.11 Ternary Relationship 转逻辑设计
+- 3.12 从概念模型到逻辑模型（标注规范 PK/FK/PFK、完整转换示例）
+- 3.13 Multi-valued Attributes 的处理（展开 / 新建关联表）
+- 3.14 从逻辑模型到物理模型（加入数据类型）
+- 3.15 Schema on Write（IC 在写入时检查）
+- 3.16 Integrity Constraints（IC）
+
+### Week 4-1 — 物理设计与 MySQL 数据类型
+（待复习）
+
+### Week 4-2 — 规范化 Normalisation
+（待复习）
+
+### 常考题型与补充知识点
+（待复习）
 
 ---
 
@@ -27,97 +71,198 @@
 
 | 类型 | 定义 | 示例 |
 |------|------|------|
-| **Structured（结构化数据）** | 有预定义格式，存储在表格/行列中 | 关系数据库中的表 |
-| **Semi-Structured（半结构化数据）** | 不完全符合表格格式，但有标签或标记 | XML, JSON, HTML |
-| **Unstructured（非结构化数据）** | 没有预定义格式 | 图片、视频、文本文件、电子邮件 |
+| **Structured（结构化数据）** | 有预定义的重复格式，存储在表格/行列中 | 关系数据库中的表、大学的学生数据 |
+| **Semi-Structured（半结构化数据）** | 不完全符合表格格式，但有标签或标记，使其更容易分析 | XML, JSON, NoSQL |
+| **Unstructured（非结构化数据）** | 没有预定义格式，组织不知道数据的格式和内容 | 图片、视频、社交媒体内容、电子邮件 |
 
 ### 1.3 DBMS（数据库管理系统）
 
-**定义**：DBMS 是一组管理数据库的创建、维护和使用的程序集合。
+**DBMS 与 Database 不是同一个概念！**
+- **Database（数据库）** = 存储数据的地方
+- **DBMS（数据库管理系统）** = 管理数据库的一组程序，允许开发者/用户存储和检索关系数据库中的数据
+
+**RDBMS（关系数据库管理系统）** 允许用户执行 **CRUD** 操作：
+- **C**reate（创建）
+- **R**ead（读取）
+- **U**pdate（更新）
+- **D**elete（删除）
 
 **DBMS 的核心优势**：
 
 - **Data Independence（数据独立性）**：应用程序不需要知道数据的物理存储方式
-- **Efficient Data Access（高效数据访问）**：使用专门的技术高效存储和检索数据
-- **Data Integrity and Security（数据完整性与安全性）**：强制实施完整性约束，控制访问权限
-- **Concurrent Access（并发访问）**：允许多个用户同时访问数据而不冲突
-- **Crash Recovery（崩溃恢复）**：在系统故障后能恢复数据到一致状态
+  - **Logical Data Independence（逻辑数据独立性）**：修改逻辑模式不需要重写应用程序（如增删改属性/实体/关系）
+  - **Physical Data Independence（物理数据独立性）**：更换存储方式（如从本地服务器迁移到云端）不影响应用程序
+- **Efficient Data Access（高效数据访问）**：比平面文件（flat files）更高效地存储和检索数据
+- **Data Integrity and Security（数据完整性与安全性）**：强制实施完整性约束，控制访问权限，不仅依赖操作系统
+- **Uniform Data Administration（统一数据管理）**：由专业人员管理数据，降低数据风险
+- **Concurrent Access and Crash Recovery（并发访问与崩溃恢复）**：调度并发访问，保护数据免受系统故障影响
 - **Reduced Application Development Time（减少开发时间）**：提供高层接口，简化编程
 
 ### 1.4 关系数据模型
 
 - 由 **Ted Codd** 于 **1970年** 提出
-- 数据以 **表 (Table/Relation)** 的形式组织
-- 每一行是一个 **元组 (Tuple/Row/Record)**
-- 每一列是一个 **属性 (Attribute/Column/Field)**
+- **关系数据库（Relational Database）** = 一组相关表的集合
+- 数据以 **二维表 (Table/Relation)** 的形式组织
+
+**二维表的属性**：
+- 列名必须唯一
+- 行没有编号，行的顺序无关紧要
+- 每个单元格只允许一个值
+- 所有行必须是不同的（no duplicates）
 
 **关系数据库术语对照表**：
 
-| 正式术语 | 替代术语 1 | 替代术语 2 |
-|---------|----------|----------|
-| Relation | Table | — |
-| Attribute | Column | Field |
-| Tuple | Row | Record |
+| 正式术语 | MS Access 术语 | MySQL/Oracle 术语 |
+|---------|---------------|------------------|
+| Relation | Table | Table |
+| Attribute | Field | Column |
+| Tuple | Record | Row |
 
 ### 1.5 Schema vs Instance
 
-- **Schema（模式）**：数据库的结构定义（表名、列名、数据类型、约束等），相对稳定不变
-- **Instance（实例）**：数据库在某一时刻的实际数据内容，经常变化
+- **Schema（模式）**：数据库的结构定义（关系名称、每列的名称和类型），相对稳定不变
+  - 例如：`Pizza(pID: string, pizzaName: string, price: decimal)`
+- **Instance（实例）**：数据库在某一时刻的实际数据内容（即表中的行），经常变化
+- **Schema on Write**：表结构在数据写入前就已定义，数据写入时必须符合 schema 规定
 
 ### 1.6 Cardinality vs Degree (Arity)
 
-- **Cardinality（基数）**：表中行（记录）的数量
+- **Cardinality（基数）**：表中行（记录）的数量（不含表头）
 - **Degree / Arity（度）**：表中列（属性）的数量
 
 ### 1.7 Client-Server Architecture（客户端-服务器架构）
 
-- **Server（服务器端）**：MySQL Server — 存储和管理数据
+- **Server（服务器端）**：MySQL Server — 存储和管理数据，数据只有一份（不含备份）
 - **Client（客户端）**：MySQL Workbench — 用户操作界面，发送 SQL 查询
+- 多个客户端可以同时访问同一个服务器
+
+### 1.8 SQL 语言分类
+
+| 类别 | 全称 | 操作 | 用途 |
+|------|------|------|------|
+| **DDL** | Data Definition Language | CREATE, DROP, ALTER, RENAME | 定义/修改表结构 |
+| **DML** | Data Manipulation Language | SELECT, INSERT, UPDATE, DELETE | 操作表中的数据 |
+| **DCL** | Data Control Language | GRANT, REVOKE | 控制用户权限 |
+
+### 1.9 Constraints（约束）
+
+基于业务规则，可以为表添加约束来验证数据：
+- 例如：Student ID 必须是正确长度
+- 例如：Student type 只能是 PG 或 UG
+- 例如：学生只能选当前学期开设的课程
+
+### 1.10 数据库开发生命周期概述（详见 Week 2）
+
+完整的生命周期包括：Database Planning → Systems Definition → Requirements Analysis → Conceptual Design → Logical Design → Physical Design → Application Design → Implementation → Data Conversion and Loading → Testing → Operational Maintenance
+
+各阶段的具体含义：
+- **Database Planning**：规划项目如何执行
+- **Systems Definition**：定义系统范围、边界、用户和应用领域
+- **Requirements Analysis**：收集和分析新系统的需求
+- **Conceptual Design**：高层次的实体与关系模型（first-pass），通常省略属性，可以包含 M:M、重复组、复合属性
+- **Logical Design**：基于关系数据库设计，包含列和键，独立于特定 DBMS 厂商
+- **Physical Design**：为特定 DBMS 实现逻辑设计，包括数据类型、索引、完整性约束、文件组织、安全措施
+- **Application Design**：设计使用数据库的界面和应用程序
+- **Implementation**：将设计实现为可运行的数据库
+- **Data Conversion and Loading**：将现有数据迁移到新数据库
+- **Testing**：测试数据库设计中的错误，检查性能、健壮性、可恢复性、安全性
+- **Operational Maintenance**：上线后的监控和维护
 
 ---
 
 ## 2. 数据建模与 ER 模型 (Week 2)
 
-### 2.1 数据库开发生命周期
+### 2.1 数据库开发生命周期（完整版）
 
 ```
-Conceptual Design（概念设计）
+Database Planning（数据库规划）
     ↓
-Logical Design（逻辑设计）
+Systems Definition（系统定义）
     ↓
-Physical Design（物理设计）
+Requirements Definition and Analysis（需求定义与分析）
     ↓
-Implementation（实施）
+Conceptual Design（概念设计）← 画 ER 图
     ↓
-Instance（数据库实例/运行）
+Logical Design（逻辑设计）← 转为关系模式
+    ↓
+Physical Design（物理设计）← 决定数据类型、索引等
+    ↓
+Application Design（应用设计）← 设计应用程序界面与逻辑
+    ↓
+Implementation（实施）← 写 SQL 建表
+    ↓
+Data Conversion and Loading（数据迁移与导入）
+    ↓
+Testing（测试）
+    ↓
+Operational Maintenance（运维与维护）
 ```
+
+- 数据建模是一个**迭代渐进的过程（iterative, progressive process）**
+- 数据模型是一种**沟通工具（communication tool）**，帮助不同角色（开发者、管理者、用户）理解数据结构
 
 ### 2.2 ER 模型核心概念
 
 #### Entity（实体）
 
-- 代表现实世界中可区分的对象或概念
-- 在 ER 图中通常用矩形表示
-- **Strong Entity（强实体）**：有自己的主键，可以独立存在
-- **Weak Entity（弱实体）**：没有自己的完整主键，依赖于强实体存在（需要借助强实体的主键来唯一标识）
+- 代表现实世界中可区分的对象或概念，在 ER 图中用矩形表示
+- 指的是 **entity set（实体集合）**，而不是单个实体实例
+- 对应关系数据库中的**表（table）**，而不是某一行
+
+**Strong Entity（强实体）**
+- 有自己完整的主键，可以独立存在
+- 与其他实体通过 **non-identifying（非标识性）关系** 连接，在 Crow's Foot 中用**虚线**表示
+
+**Weak Entity（弱实体）**
+- 满足以下两个条件：
+  1. 没有父实体就无法存在
+  2. 主键部分或全部来自父实体
+- 与父实体通过 **identifying（标识性）关系** 连接，在 Crow's Foot 中用**实线**表示
+- Weak entity 必须 **mandatory participation** 于该关系
+- 弱实体借用父实体的 PK 作为自己 PK 的一部分，该属性称为 **PFK（Primary Foreign Key）**
+
+**判断方法**：问"如果删掉父实体，这个实体还有意义吗？"如果没有意义 → Weak Entity
+
+**Partial Identifier（部分标识符）**：弱实体自身的属性，需结合 PFK 才能唯一标识一个实例
 
 #### Attributes（属性）
 
-| 属性类型 | 定义 | 示例 |
-|---------|------|------|
-| **Simple（简单属性）** | 不可再分的原子值 | FirstName |
-| **Composite（复合属性）** | 可以分解为更小的子部分 | Address → Street, City, State |
-| **Derived（派生属性）** | 可从其他属性计算得出 | Age（从 DateOfBirth 计算）|
-| **Multivalued（多值属性）** | 一个实体可以有多个值 | Phone Numbers |
-| **Single-valued（单值属性）** | 每个实体只有一个值 | StudentID |
+**属性命名规范**：不能有空格，使用字母数字加下划线或 CamelCase，例如 `firstName`、`year_of_birth`
+
+**属性的 Domain（域）**：每个属性有一个允许值的集合，由业务规则定义
+- 例如：Grade 在 UniMelb 只能是 H1, H2A, H2B, H3, P, N, NH
+
+**Required vs Optional 属性**：
+- **Required（必填属性）**：必须有值，对应 NOT NULL
+- **Optional（可选属性）**：可以为空
+
+| 属性类型 | 定义 | 示例 | MySQL Workbench 符号 |
+|---------|------|------|---------------------|
+| **Simple（简单属性）** | 不可再分的原子值（不能拆解） | FirstName, gender | 普通属性 |
+| **Composite（复合属性）** | 可以分解为更小的子部分 | Address → Street, City, State | 属性名后加 () |
+| **Derived（派生属性）** | 可从其他属性计算得出，不直接存储 | Age（从 DOB 和 CURDATE() 计算）| 属性名加 [] |
+| **Multivalued（多值属性）** | 一个实体可以有多个值 | CarColour（车可有多种颜色）| 属性名加 {} |
+| **Single-valued（单值属性）** | 每个实体只有一个值 | StudentID | 普通属性 |
+
+**注意**：`date_of_birth` 是 Composite 属性（可拆成 Day/Month/Year），而 `age` 是 Derived 属性（从 DOB 计算得出）
 
 #### Relationships（关系）
 
-- 描述实体之间的关联
+- **Relationship（关系）**：两个实体实例之间的单次关联，例如 "John places a Pizza order"
+- **Relationship Set（关系集合）**：同类型关系的集合，例如 "Customers place orders"
+- 关系两端的实体称为 **participants（参与者）**
+- 关系是双向的：Customer places Order ↔ Order belongs to Customer
 - **Binary Relationship（二元关系）**：两个实体之间的关系（最常见）
 - **Unary Relationship（一元关系/递归关系）**：同一个实体内部的关系（如 Employee manages Employee）
 
-### 2.3 Connectivity（连接性/对应关系）
+#### Foreign Key（外键）在 ER 模型中的引入
+
+- FK **始终放在 MANY 方**（Many side）
+- 例如：Customer(1) — Order(M)，则 customerID 成为 Order 的外键
+
+### 2.3 Connectivity（连接性）vs Cardinality（基数）
+
+**Connectivity** 描述关系的类型（1:1、1:M、M:M）：
 
 | 类型 | 含义 | 示例 |
 |------|------|------|
@@ -125,12 +270,14 @@ Instance（数据库实例/运行）
 | **1:M (One-to-Many)** | A 的一个实例可以对应 B 的多个实例 | Department — Employee |
 | **M:M (Many-to-Many)** | A 的多个实例可以对应 B 的多个实例 | Student — Course |
 
-### 2.4 Cardinality / Participation（参与度）
+**Cardinality** 描述具体的最小和最大参与数量，用 **(min, max)** 表示：
+- 例如：一个顾客可以下 0 到多个订单 → (0, N)；一个订单只能属于 1 个顾客 → (1, 1)
+- 注意：本课程解题中通常不要求写 (min, max)，用 Crow's Foot 符号表示即可
+
+### 2.4 Participation（参与度）
 
 - **Mandatory（强制参与/Total Participation）**：实体的每个实例都必须参与关系
-  - Crow's Foot 表示法中用 **实线 + 竖线（|）** 表示
 - **Optional（可选参与/Partial Participation）**：实体的实例可以不参与关系
-  - Crow's Foot 表示法中用 **虚线 + 圆圈（○）** 表示
 
 ### 2.5 Crow's Foot Notation（鸦爪表示法）
 
@@ -141,17 +288,75 @@ Instance（数据库实例/运行）
 - **>|** 或 **⋈|** （鸦爪 + 竖线）= 多 (many)，且必须参与 (mandatory)
 - **>O** 或 **⋈O** （鸦爪 + 圆圈）= 多 (many)，可选参与 (optional)
 
-### 2.6 Business Rules（业务规则）
+**关系线类型**：
+- **虚线**：Non-identifying relationship（强实体之间）
+- **实线**：Identifying / Strong relationship（弱实体与父实体之间）
 
-- 业务规则定义了数据的约束条件和组织中的运作规范
+### 2.6 M:M 关系的处理
+
+**重要**：M:M 关系在逻辑设计和物理设计中**无法直接实现**，必须拆解！
+
+处理方法：
+1. 插入一个 **Weak Entity（弱实体）** 来解析 M:M
+2. 将 M:M 拆成两个 1:M 关系
+3. 弱实体的 PK 由两边强实体的 PK 组合而成（PFK）
+4. 弱实体可以有自己的附加属性（如 quantity、date 等）
+
+```
+Order  ||————>O  Pizza        (M:M，不能实现)
+
+解析后：
+Order  ||————>|  OrderLine  |<————||  Pizza
+              (弱实体，PK = OrderNo + PizzaNo)
+```
+
+### 2.7 开发 ER 图的 8 步流程
+
+1. 列出系统中的主要实体
+2. 用矩形在图中表示实体
+3. 找出实体之间的关系并用符号连接
+4. 为每个实体添加属性，确定主键
+5. 建模每对实体之间的 connectivity（1:1, 1:M, M:M）
+6. 建模每对实体之间的 cardinality（mandatory/optional）
+7. 判断是否存在弱实体，处理 M:M 关系
+8. 验证 ERD 是否符合业务规则
+
+### 2.8 Entity vs Attribute 的设计选择
+
+同一个概念，何时建模为实体，何时建模为属性？取决于业务需求：
+
+- 如果一个顾客有多个地址（送货地址、账单地址），**address 应该是实体**
+- 如果地址结构（city, street 等）很重要，**address 可以是实体**
+- 如果只允许一个地址且结构不重要，**address 作为属性集合即可**
+
+**Noun-Verb 分析法**：从业务描述中识别实体和关系的方法：
+- **名词（Noun）** → 通常是实体或属性
+- **动词（Verb）** → 通常是关系
+
+### 2.9 Business Rules（业务规则）
+
+- 业务规则定义了数据的约束条件和组织运作规范
 - ER 模型通过 connectivity 和 cardinality 来体现业务规则
+- 业务规则因组织不同而不同，数据库设计必须满足特定组织的业务规则
 - 例如："每个部门必须有一个经理" → Department 对 Manager 是 mandatory participation
 
 ---
 
 ## 3. 键 (Keys) 与逻辑设计 (Week 3)
 
-### 3.1 键的层次结构
+### 3.1 什么是好的实体（Good Entity Selection）
+
+一个好的实体应当满足：
+- 在数据库中会有**很多实例**
+- 由**很多属性**组成
+- 是系统需要建模的对象
+
+**实体不是**：
+- 系统的用户（user of the system）
+- 系统的输出（如报表）
+- 系统本身
+
+### 3.2 键的层次结构
 
 ```
 Superkey（超键）
@@ -172,49 +377,148 @@ Primary Key（主键）
 | **Surrogate Key（代理键）** | 系统生成的无业务含义的键（如自增 ID） |
 | **Natural Key（自然键）** | 具有实际业务含义的键（如身份证号、学号） |
 
-### 3.2 主键的性质
+**关于 Natural Key vs Surrogate Key**：
+- 建模阶段（与客户沟通时）通常使用 **Natural Key**，避免引入客户不熟悉的概念
+- 数据库实施阶段，开发者可以选择加入 Surrogate Key
+- 加入 Surrogate Key 后，Natural Key 的数据**不会被删除**，只是不再作为主键
+
+### 3.3 主键的性质
 
 - **唯一性 (Uniqueness)**：每个值必须在表中唯一
 - **非空性 (NOT NULL)**：主键值不能为空
 - **不可变性 (Immutability)**：一旦赋值，理想情况下不应更改
 - **最小性 (Minimality)**：使用尽可能少的属性
 
-### 3.3 Composite Key（复合键）
+### 3.4 Composite Key（复合键）
 
 - 由两个或多个属性组合构成的主键
 - 常见于 M:M 关系的关联表（Associative Entity）中
 - 例如：LOAN 表的 PK 为 (MemberNo, ToyNo, DateBorrowed)
 
-### 3.4 Foreign Key（外键）与 Referential Integrity（引用完整性）
+### 3.5 Foreign Key（外键）与 Referential Integrity（引用完整性）
 
 - 外键的值必须在被引用表的主键中存在，或者为 NULL
-- **Referential Integrity（引用完整性）**：保证外键引用的一致性
-- 违反引用完整性的情况：外键值不在被引用表的主键列中
+- **Referential Integrity（引用完整性）**：保证外键引用的一致性，如果所有 FK 约束都被强制执行，则达到引用完整性
+- 违反引用完整性：外键值不在被引用表的主键列中（插入时应拒绝）
 
-### 3.5 Toy Library Case Study 核心要点
+**违反时的处理方式（ON DELETE）**：
+
+| 选项 | 行为 |
+|------|------|
+| **NO ACTION / RESTRICT** | 阻止删除（默认）|
+| **CASCADE** | 级联删除子表相关记录 |
+| **SET NULL** | 将外键值设为 NULL |
+| **SET DEFAULT** | 将外键值设为默认值 |
+
+**弱实体（Weak Entity）被删除时**应使用 `ON DELETE CASCADE`，因为弱实体不能在没有父实体的情况下存在。
+
+### 3.6 Mandatory Participation 与 NOT NULL
+
+在 SQL 中，Mandatory Participation（强制参与）用 `NOT NULL` 来实现：
+```sql
+CREATE TABLE Order (
+  orderID INTEGER,
+  CustID CHAR(11) NOT NULL,   -- 强制参与，每个订单必须有顾客
+  ...
+  FOREIGN KEY (CustID) REFERENCES Customer(CustomerID)
+  ON DELETE NO ACTION
+)
+```
+
+### 3.7 Toy Library Case Study 核心要点
 
 这是课程中的一个重要案例，展示了如何测试和验证键的选择：
 
-- Member-Toy 是 **M:M** 关系，optional participation on both sides
+- Member-Toy 是 **M:M** 关系，**optional participation on both sides**
 - 初始设计 LOAN(MemberNo, ToyNo, DateBorrowed, DateReturned)，PK = (MemberNo, ToyNo)
   - 问题：同一个会员可以多次借同一个玩具 → PK 重复 → 必须加入 DateBorrowed
 - 修正后：PK = (MemberNo, ToyNo, **DateBorrowed**)
 - 是否把 DateReturned 也加入 PK？**不应该**，因为 PK 不能包含 NULL 值，而未归还的借阅记录 DateReturned 为 NULL
 
-### 3.6 从概念模型到逻辑模型
+### 3.8 Relationship Degree（关系的度）
 
-- **Entity → Relation（表）**
-- **Attributes → Columns（列）**
-- **Primary Key → 下划线标注**
-- **Foreign Key → 斜体标注**
+| 度 | 名称 | 定义 | 示例 |
+|----|------|------|------|
+| 1 | **Unary（一元/递归）** | 同一实体内部的关系 | Employee manages Employee |
+| 2 | **Binary（二元）** | 两个实体之间（最常见） | Customer places Order |
+| 3 | **Ternary（三元）** | 三个实体之间 | Supplier-Part-Department |
+| N | **N-ary** | N 个实体之间 | — |
 
-逻辑模型的标准写法：
+**Ternary Relationship 转逻辑设计**：关联表的属性包含所有参与实体的 PK（作为 FK）加上关系本身的描述属性：
 
 ```
-RELATION_NAME (PK_Attribute, Attribute1, Attribute2, FK_Attribute)
+CONTRACT (SupplierID, PartID, DepCode, Quantity, Date)
+  PK: (SupplierID, PartID, DepCode)
+  FK1: SupplierID references Supplier
+  FK2: PartID references Part
+  FK3: DepCode references Department
+```
+
+### 3.9 从概念模型到逻辑模型
+
+#### 标注规范
+
+- **PK（主键）**：下划线标注
+- **FK（外键）**：斜体标注
+- **PFK（既是 PK 又是 FK）**：下划线 + 斜体
+
+**注意**：FK 名称不必与父实体的 PK 名称相同。
+
+#### 逻辑模型的标准写法
+
+```
+RELATION_NAME (PK_Attribute, Attribute1, FK_Attribute)
   PK: PK_Attribute
   FK: FK_Attribute references OTHER_TABLE
 ```
+
+#### 完整转换示例
+
+```
+Pizza (Code, PizzaName, Price)
+  PK: Code
+
+Order (OrderID, CustomerID, DateTime, TotalDue)
+  PK: OrderID
+  FK: CustomerID references Customer
+
+OrderItem (OrderID, PizzaCode, Quantity)
+  PK: (OrderID, PizzaCode)       ← 复合 PFK
+  FK1: OrderID references Order
+  FK2: PizzaCode references Pizza(Code)
+```
+
+#### Multi-valued Attributes 的处理
+
+多值属性在转换为逻辑设计时需要**展开（flatten）**：
+- 如果值的数量已知（如 home/work/mobile），展开为多个独立属性
+- 如果值的数量不确定（如资质、技能），应创建新的关联表
+
+```
+-- 展开为独立属性（数量已知时）
+Customer (CustID, Surname, FirstName, home_num, work_num, mobile)
+```
+
+### 3.10 从逻辑模型到物理模型
+
+物理设计在逻辑设计基础上加入**数据类型**：
+
+```
+-- 逻辑设计
+Building (bCode, bName)
+
+-- 物理设计
+Building (
+  bCode CHAR(2),
+  bName VARCHAR(25)
+)
+```
+
+### 3.11 Schema on Write
+
+- 在数据插入之前，表结构（schema）已经预先定义好
+- DBMS 在数据写入时检查 IC（Integrity Constraints）
+- 非法数据（违反约束的数据）不被允许插入
 
 ---
 
@@ -297,7 +601,8 @@ RELATION_NAME (PK_Attribute, Attribute1, Attribute2, FK_Attribute)
 | **SMALLINT** | -32,768 to 32,767 | 0 to 65,535 |
 | **MEDIUMINT** | -8,388,608 to 8,388,607 | 0 to 16,777,215 |
 | **INT / INTEGER** | -2,147,483,648 to 2,147,483,647 | 0 to 4,294,967,295 |
-| **BIGINT** | ±9.2×10¹⁸ | 0 to 1.8×10¹⁹ |
+| **BIGINT** | -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 | 0 to 18,446,744,073,709,551,615 |
+| **BIT(M)** | 存储 M 位的位值（bit values），M 范围 1–64 | — |
 
 **注意**：整数类型不要使用 "(M)" 语法指定显示宽度
 
@@ -395,11 +700,16 @@ CREATE TABLE TableName (
 
 **条件**：表中每个单元格只有一个值（消除多值属性和重复组）
 
+**写 UNF 的注意事项**：
+- **不要包含 Derived 属性**（如 Age、TotalDue 可以计算得出，不应列入）
+- 用括号 `()` 标注 repeating groups
+- 下划线标注主键
+
 **步骤**：
 1. 识别 repeating groups（重复组）
-2. 将重复组移出，创建新关系
-3. 用外键连接两个关系
-4. 确定每个关系的主键
+2. 将重复组移出，**给新关系起一个有意义的名字**（命名错误会影响后续 2NF/3NF 的分析）
+3. 用外键连接两个关系（思考哪一方加 FK）
+4. 为两个关系确定主键（确认后再想一想——这真的是唯一标识符吗？）
 
 **示例**：
 ```
