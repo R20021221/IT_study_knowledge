@@ -37,5 +37,35 @@ public final class Messages {
     public static void CheckNumReminder(){
         System.out.println("Invalid input.");
     }
+
+    public static void titleGrid(){
+        System.out.println("Legend: # Wall | . Aisle | X Restricted | S Shelf | O Start | F Forklift\n" + "Forklift at: (1,1)");
+    }
+
+
+
+    /*          Enter direction:
+                U - Up.
+                D - Down.
+                L - Left.
+                R - Right.
+                T - Deliver carried item at START (O).
+                Q - Quit to main menu.
+                >
+    */
+    public static void printGridMenu(){
+        System.out.println("\nEnter direction:");
+        System.out.println("U - Up.");
+        System.out.println("D - Down.");
+        System.out.println("L - Left.");
+        System.out.println("R - Right.");
+        System.out.println("T - Deliver carried item at START (O).");
+        System.out.println(" - Quit to main menu.");
+        System.out.print("> ");
+    }
+
+    public static void endGrid(){
+        System.out.println("Shift completed: all shelves visited and all items processed.");
+    }
 }
 

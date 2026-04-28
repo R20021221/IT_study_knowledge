@@ -35,7 +35,7 @@ public class WarehouseMap {
     }
 
     private void initialiseGrid() {
-         // TODO: initialise map by looping through Array
+        // TODO: initialise map by looping through Array
         // TODO: set the boundary, start position and mark everything else as open position
    
     }

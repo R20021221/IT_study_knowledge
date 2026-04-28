@@ -25,12 +25,16 @@ public class WarehouseManagerEngine {
         //Add your code here
         Messages mes = null;
 
+
         int MenuNum;
+
         do {
             Messages.printMainMenuCommands();
             MenuNum = SCANNER.nextInt();
             SCANNER.nextLine();
-            if(MenuNum != 1|MenuNum != 2|MenuNum != 3|MenuNum != 4){
+
+
+            if(MenuNum != 1| MenuNum != 2| MenuNum != 3| MenuNum != 4| MenuNum != 5){
                 Messages.CheckNumReminder();
             }
 
