@@ -10,6 +10,8 @@ public class WarehouseMap {
 
     // add the map variable here
     private final WarehouseGenerator generator;
+    private String[][][] map;
+
 
     /**
      * Constructs a new WarehouseMap.
@@ -23,6 +25,7 @@ public class WarehouseMap {
         this.cols = cols;
         this.generator = new WarehouseGenerator(seed);
 
+        int[][][] map = new int[rows][cols][0];
         //TODO: set other variables here 
 
         generateMap();
@@ -35,12 +38,24 @@ public class WarehouseMap {
     }
 
     private void initialiseGrid() {
+        for(int i = 0; i < cols; i++ ){
+            for(int j = 0; j < rows; j++){
+                if(i == 0 | j == 0 | i == cols -1 | j == rows -1){
+                    map[i][j][0] = "#";
+                }
+                else{
+                    map[i][j][0] = ".";
+                }
+            }
+        }
+
         // TODO: initialise map by looping through Array
         // TODO: set the boundary, start position and mark everything else as open position
    
     }
 
     //DO NOT MODIFY THIS METHOD
+    // get count of shelfCount and remaining
     private void fillSpecialCells() {
         int inner = availableInnerCells();
 
@@ -64,39 +79,66 @@ public class WarehouseMap {
     }
 
     private void placeRestrictedCells(int count) {
-        //TODO: use the generator to generate random position for rows/cols that are open spaces to fill restricted places. 
+        for(int i = 0; i < count; i++){
+            int m = findRandomEmptyCell();
+            int r = m / cols;
+            int c = m % cols;
+            map[r][c][0] = "X";
+        }
+        //TODO: use the generator to generate random position for rows/cols that are open spaces to fill restricted places.
         // The maximum number of restricted places are defined by the count parameter in this method.
     }
 
     private void placeShelves(int count) {
+        for(int i = 0; i < count; i++) {
+            int m = findRandomEmptyCell();
+            int r = m / cols;
+            int c = m % cols;
+            map[r][c][0] = "S";
+            populateShelf(r, c);
+        }
+
+
+
         //TODO: the total shelves to be created defined by the count parameter
         //TODO: based on number of shelves to be created, generate random row/col positions and fill up with Shelves.
         //TODO: for each shelf generated you need add items to the shelf
-        populateShelf(); // can modify this method to add parameters required to place items to shelf.
+         // can modify this method to add parameters required to place items to shelf.
         
     }
 
-    private WarehouseCell findRandomEmptyCell() {
+    private int findRandomEmptyCell() {
         int attempts = 0;
         int maxAttempts = rows * cols * 10;
 
         while (attempts < maxAttempts) {
-            int r = generator.generateInt(/*set the right arguments*/);
-            int c = generator.generateInt(/*set the right arguments*/);
+            int r = generator.generateInt(1, rows - 1);
+            int c = generator.generateInt(1, cols - 1);
 
-            WarehouseCell cell = grid[r][c];
-            if (/*TODO: Set the correct condition here*/) {
-                return cell;
+
+            if (map[r][c][0].equals(".")) {
+
+                return r * cols + c;
+
             }
             attempts++;
         }
 
         System.out.println("Error: No empty AISLE cell available to place an object.");
-        return null;
+        return -1;
     }
 
-    private void populateShelf(/*TODO: add parameters here if required*/) {
+    private void populateShelf(int r, int c) {
         int itemCount = generator.generateInt(Constants.MIN_ITEMS_PER_SHELF, Constants.MAX_ITEMS_PER_SHELF + 1);
+        String[] item_on_Shelf = new String[itemCount];
+        // shelves_have_item[] --> map[][]?
+        // map[][]--> map[][][0]
+        for(int i = 0; i < itemCount; i++){
+            item_on_Shelf[i] = Constants.DEFAULT_ITEM_NAMES[generator.generateInt(0, 9)];// for example
+        }
+        for(int i = 0; i < itemCount; i++){
+            map[r][c][i] = item_on_Shelf[i];
+        }
 
         // TODO: add items to the shelf
     }

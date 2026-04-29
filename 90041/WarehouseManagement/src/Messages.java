@@ -30,13 +30,8 @@ public final class Messages {
         System.out.println("Press Q to exit shelf menu.");
         System.out.print(">");
     }
-    public static void QuitProgrammer(){
-        System.out.println("Session abandoned. Goodbye!");
-    }
 
-    public static void CheckNumReminder(){
-        System.out.println("Invalid input.");
-    }
+
 
     public static void titleGrid(){
         System.out.println("Legend: # Wall | . Aisle | X Restricted | S Shelf | O Start | F Forklift\n" + "Forklift at: (1,1)");
@@ -53,7 +48,7 @@ public final class Messages {
                 Q - Quit to main menu.
                 >
     */
-    public static void printGridMenu(){
+    public static void operationFkMenu(){
         System.out.println("\nEnter direction:");
         System.out.println("U - Up.");
         System.out.println("D - Down.");

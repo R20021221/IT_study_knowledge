@@ -25,5 +25,8 @@ public final class Constants {
 
     public static final int MIN_ITEMS_PER_SHELF = 1;
     public static final int MAX_ITEMS_PER_SHELF = 4;
+
+    public static final int BOUNDARY_THICKNESS = 2;
+    public static final int START_OFFSET = 1;
 }
 
