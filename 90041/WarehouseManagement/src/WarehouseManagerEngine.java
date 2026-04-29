@@ -13,8 +13,8 @@ import java.util.Scanner;
 public class WarehouseManagerEngine {
     private static final Scanner SCANNER = new Scanner(System.in);
 
-    private int warehouseId;
-    private String item;
+    //private int warehouseId;
+    //private String item;
 
     /**
      * Main method.
@@ -35,7 +35,7 @@ public class WarehouseManagerEngine {
 
         //Legend: # Wall | . Aisle | X Restricted | S Shelf | O Start | F Forklift
         //Add your code here
-        Messages mes = null;
+
 
 
         int MenuNum;
@@ -47,10 +47,14 @@ public class WarehouseManagerEngine {
 
             switch (MenuNum){
                 case 1:
+                    WarehouseMap.printArray(warehouse.map);
+                    Messages.printWelcome();
+                    String dirct = SCANNER.nextLine();
 
+                    // movement ...
                     break;
                 case 2:
-
+                    // history ...
                     break;
                 case 3:
 

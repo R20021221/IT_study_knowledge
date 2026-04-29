@@ -10,7 +10,7 @@ public class WarehouseMap {
 
     // add the map variable here
     private final WarehouseGenerator generator;
-    private String[][][] map;
+    public String[][] map;
 
 
     /**
@@ -25,7 +25,7 @@ public class WarehouseMap {
         this.cols = cols;
         this.generator = new WarehouseGenerator(seed);
 
-        int[][][] map = new int[rows][cols][0];
+        int[][] map = new int[rows][cols];
         //TODO: set other variables here 
 
         generateMap();
@@ -41,10 +41,13 @@ public class WarehouseMap {
         for(int i = 0; i < cols; i++ ){
             for(int j = 0; j < rows; j++){
                 if(i == 0 | j == 0 | i == cols -1 | j == rows -1){
-                    map[i][j][0] = "#";
+                    map[i][j] = "#";
+                }
+                else if(i == 1 && j == 1){
+                    map[i][j] = "O";
                 }
                 else{
-                    map[i][j][0] = ".";
+                    map[i][j] = ".";
                 }
             }
         }
@@ -83,7 +86,7 @@ public class WarehouseMap {
             int m = findRandomEmptyCell();
             int r = m / cols;
             int c = m % cols;
-            map[r][c][0] = "X";
+            map[r][c] = "X";
         }
         //TODO: use the generator to generate random position for rows/cols that are open spaces to fill restricted places.
         // The maximum number of restricted places are defined by the count parameter in this method.
@@ -94,7 +97,7 @@ public class WarehouseMap {
             int m = findRandomEmptyCell();
             int r = m / cols;
             int c = m % cols;
-            map[r][c][0] = "S";
+            map[r][c] = "S";
             populateShelf(r, c);
         }
 
@@ -103,7 +106,7 @@ public class WarehouseMap {
         //TODO: the total shelves to be created defined by the count parameter
         //TODO: based on number of shelves to be created, generate random row/col positions and fill up with Shelves.
         //TODO: for each shelf generated you need add items to the shelf
-         // can modify this method to add parameters required to place items to shelf.
+        // can modify this method to add parameters required to place items to shelf.
         
     }
 
@@ -116,7 +119,7 @@ public class WarehouseMap {
             int c = generator.generateInt(1, cols - 1);
 
 
-            if (map[r][c][0].equals(".")) {
+            if (map[r][c].equals(".")) {
 
                 return r * cols + c;
 
@@ -130,19 +133,27 @@ public class WarehouseMap {
 
     private void populateShelf(int r, int c) {
         int itemCount = generator.generateInt(Constants.MIN_ITEMS_PER_SHELF, Constants.MAX_ITEMS_PER_SHELF + 1);
-        String[] item_on_Shelf = new String[itemCount];
-        // shelves_have_item[] --> map[][]?
-        // map[][]--> map[][][0]
-        for(int i = 0; i < itemCount; i++){
-            item_on_Shelf[i] = Constants.DEFAULT_ITEM_NAMES[generator.generateInt(0, 9)];// for example
+        itemShelves itemOnShelf = new itemShelves(r, c, itemCount);
+        // shelves_have_item[] --> map[][] && item[] class --> row&col
+        // map[][]--> map[][][0] X
+        for(int i = 0; i < itemCount; i++) {
+            String item = generator.randomItemName();
+            itemOnShelf.Item[i] = item;
         }
-        for(int i = 0; i < itemCount; i++){
-            map[r][c][i] = item_on_Shelf[i];
-        }
+
 
         // TODO: add items to the shelf
     }
 
+
+    public static void printArray(String[][] array) {
+        for(int i = 0; i < array.length; i++){
+            for(int j = 0; j < array[i].length; j++){
+                System.out.print(array[i][j] + " ");
+            }
+            System.out.println("\n");
+        }
+    }
   
 }
 
