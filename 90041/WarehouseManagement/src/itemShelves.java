@@ -1,7 +1,7 @@
 public class itemShelves {
 
     public String[] Item;
-    //warehouse ID ?
+
     private int row;
     private int col;
     private int itemCount;
@@ -12,7 +12,6 @@ public class itemShelves {
         this.itemCount = i;
 
         Item = new String[itemCount];
-
     }
 
 

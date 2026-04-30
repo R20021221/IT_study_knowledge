@@ -28,7 +28,7 @@ public final class Messages {
         System.out.println("Press V to view items.");
         System.out.println("Press P to pick an item.");
         System.out.println("Press Q to exit shelf menu.");
-        System.out.print(">");
+        System.out.print("> ");
     }
 
 
@@ -39,7 +39,8 @@ public final class Messages {
 
 
 
-    /*          Enter direction:
+    /*
+                Enter direction:
                 U - Up.
                 D - Down.
                 L - Left.

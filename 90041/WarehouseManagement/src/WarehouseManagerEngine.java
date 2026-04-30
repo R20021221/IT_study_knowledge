@@ -48,7 +48,7 @@ public class WarehouseManagerEngine {
             switch (MenuNum){
                 case 1:
                     WarehouseMap.printArray(warehouse.map);
-                    Messages.printWelcome();
+                    Messages.printShelfMenu();
                     String dirct = SCANNER.nextLine();
 
                     // movement ...

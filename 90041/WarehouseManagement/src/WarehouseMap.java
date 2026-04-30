@@ -140,8 +140,6 @@ public class WarehouseMap {
             String item = generator.randomItemName();
             itemOnShelf.Item[i] = item;
         }
-
-
         // TODO: add items to the shelf
     }
 
