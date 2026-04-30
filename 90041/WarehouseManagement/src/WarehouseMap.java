@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.concurrent.ForkJoinPool;
 
 /**
  * WarehouseMap represents a 2D warehouse grid that can be navigated by a forklift.
@@ -11,7 +11,7 @@ public class WarehouseMap {
     // add the map variable here
     private final WarehouseGenerator generator;
     public String[][] map;
-
+    private ForkJoinPool forkLifter;
 
     /**
      * Constructs a new WarehouseMap.
@@ -25,7 +25,7 @@ public class WarehouseMap {
         this.cols = cols;
         this.generator = new WarehouseGenerator(seed);
 
-        int[][] map = new int[rows][cols];
+        this.map = new String[rows][cols];
         //TODO: set other variables here 
 
         generateMap();
@@ -38,8 +38,8 @@ public class WarehouseMap {
     }
 
     private void initialiseGrid() {
-        for(int i = 0; i < cols; i++ ){
-            for(int j = 0; j < rows; j++){
+        for(int i = 0; i < rows; i++ ){
+            for(int j = 0; j < cols; j++){
                 if(i == 0 | j == 0 | i == cols -1 | j == rows -1){
                     map[i][j] = "#";
                 }
@@ -138,20 +138,34 @@ public class WarehouseMap {
         // map[][]--> map[][][0] X
         for(int i = 0; i < itemCount; i++) {
             String item = generator.randomItemName();
-            itemOnShelf.Item[i] = item;
+            itemOnShelf.Item[i] = item; // store
         }
         // TODO: add items to the shelf
     }
 
 
-    public static void printArray(String[][] array) {
+    public static void printArray(int r, int c,String[][] array) {
         for(int i = 0; i < array.length; i++){
-            for(int j = 0; j < array[i].length; j++){
-                System.out.print(array[i][j] + " ");
+            for(int j = 0; j < array[i].length; j++) {
+
+                if (i == r && j == c) {
+                    System.out.print("F" + " ");
+                } else {
+                    System.out.print(array[i][j] + " ");
+                }
             }
             System.out.println("\n");
         }
     }
-  
+
+
+    public boolean check(int r, int c){
+        switch(map[r][c]){
+            case "X", "#":
+                return false;
+            default:
+                return true;
+        }
+    }
 }
 

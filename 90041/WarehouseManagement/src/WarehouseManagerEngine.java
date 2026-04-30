@@ -6,6 +6,7 @@
 */
 
 import java.util.Scanner;
+import java.util.concurrent.ForkJoinPool;
 
 /**
  * Main engine for the Warehouse Manager console application.
@@ -28,7 +29,7 @@ public class WarehouseManagerEngine {
         int seed = Integer.parseInt(args[2]);
 
         WarehouseMap warehouse = new WarehouseMap(rows, cols, seed);
-
+        ForkPosition fork = new ForkPosition();
 
         WarehouseManagerEngine engine = new WarehouseManagerEngine();
 
@@ -46,23 +47,29 @@ public class WarehouseManagerEngine {
             SCANNER.nextLine();
 
             switch (MenuNum){
-                case 1:
-                    WarehouseMap.printArray(warehouse.map);
-                    Messages.printShelfMenu();
-                    String dirct = SCANNER.nextLine();
-
+                case 1: // Start warehouse shift
+                    fork.initialize(); // initialize fork in(1,1)
+                    WarehouseMap.printArray(fork.F_row, fork.F_col,warehouse.map);// print F position and whole map
+                    Messages.printMoveMenu();
+                    String order = SCANNER.nextLine();
+                    fork.setF_order(order);
+                    fork.movement(fork.F_row, fork.F_col, order);
                     // movement ...
-                    break;
-                case 2:
-                    // history ...
-                    break;
-                case 3:
 
                     break;
-                case 4:
+                case 2: // resume last shift
+
+
+
 
                     break;
-                case 5:
+                case 3: // view operation and history
+
+                    break;
+                case 4:// reset shift&warehouse
+
+                    break;
+                case 5:// exit
                     System.out.println("Session abandoned. Goodbye!");
                     break;
                 default:

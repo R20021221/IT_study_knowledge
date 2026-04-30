@@ -23,7 +23,7 @@ public final class Messages {
         System.out.print("> ");
     }
 
-    public static void printShelfMenu(){
+    public static void printMoveMenu(){
         System.out.println("\nShelf Menu:");
         System.out.println("Press V to view items.");
         System.out.println("Press P to pick an item.");

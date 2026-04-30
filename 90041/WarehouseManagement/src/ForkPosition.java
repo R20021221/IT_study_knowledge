@@ -1,43 +1,69 @@
 public class ForkPosition {
 
-    private int F_row;
-    private int F_col;
+    public int F_row;
+    public int F_col;
+    private String F_order;
 
-    public ForkPosition(int F_row, int F_col) {
-        this.F_row = F_row;
-        this.F_col = F_col;
-        initialize();
+    private WarehouseMap map;
 
+    public void setF_order(String order) {
+        this.F_order = order;
     }
 
-    private void initialize() {
-        F_row = 1;
-        F_col = 1;
+    public void initialize(){ // initialize the fork's position
+        int r = 1;
+        int c = 1;
+
+        this.F_row = r;
+        this.F_col = c;
     }
 
-    private void move(String input, int F_row, int F_col){
+    private void printPosition(int r, int c){
+        System.out.printf("(%d,%d)", r, c);
+    }
 
-        switch(input){
-            case "U":
-                F_col = F_col + 1;
-                break;
+    public void movement(int r, int c, String order){
+        switch(order){
+            case "U": // go up
+                c += 1;
+                if(map.check(r, c)){
+                    break;
+                }
+                else{
+                    c -= 1;
+                    break;
+                }
+
             case "D":
-                F_col = F_col - 1;
-                break;
-            case "R":
-                F_row = F_row + 1;
-                break;
+                c -= 1;
+                if(map.check(r, c)){
+                    break;
+                }
+                else{
+                    c += 1;
+                    break;
+                }
+
             case "L":
-                F_row = F_row - 1;
-                break;
-            case "T":
-                F_row = 1;
-                F_col = 1;
-                break;
+                r -= 1;
+                if(map.check(r, c)){
+                    break;
+                }
+                else{
+                    r += 1;
+                    break;
+                }
+
+            case "R":
+                r += 1;
+                if(map.check(r, c)){
+                    break;
+                }
+                else{
+                    r -= 1;
+                    break;
+                }
+
         }
-
     }
-
-
-
 }
