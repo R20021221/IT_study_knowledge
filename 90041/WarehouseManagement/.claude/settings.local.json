@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(codex *)",
-      "Read(//c/Users/Admin/.codex/**)"
+      "Read(//c/Users/Admin/.codex/**)",
+      "Bash(java WarehouseManagerEngine 5 5 100)",
+      "Bash(javac CellType.java Constants.java ForkPosition.java History.java ItemShelves.java Messages.java OperationType.java WarehouseGenerator.java WarehouseManagerEngine.java WarehouseMap.java)"
     ]
   }
 }

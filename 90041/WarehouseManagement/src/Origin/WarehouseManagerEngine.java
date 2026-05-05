@@ -13,6 +13,9 @@ import java.util.Scanner;
 public class WarehouseManagerEngine {
     private static final Scanner SCANNER = new Scanner(System.in);
 
+    //private int warehouseId;
+    //private String item;
+
     /**
      * Main method.
      *
@@ -20,7 +23,7 @@ public class WarehouseManagerEngine {
      */
     public static void main(String[] args) {
 
-        if (args.length != 3) {
+        if(args.length != 3){
             System.out.println("Invalid number of Command Line Arguments. Usage: java WarehouseManagerEngine <rows> <cols> <seed>");
             return;
         }
@@ -29,53 +32,58 @@ public class WarehouseManagerEngine {
         int cols = Integer.parseInt(args[1]);
         int seed = Integer.parseInt(args[2]);
 
-        if (rows < 4 || cols < 4) {
+        if(rows < 4 || cols < 4){
             System.out.println("Error: Rows and columns must be at least 4 to allow proper map layout.");
             return;
         }
 
         Messages.printWelcome();
 
-        int warehouseId = 1;
-        WarehouseMap warehouse = new WarehouseMap(rows, cols, seed, SCANNER, warehouseId);
+        int ID = 1;
+        WarehouseMap warehouse = new WarehouseMap(rows, cols, seed, SCANNER, ID);
 
-        int menuChoice = 0;
+        WarehouseManagerEngine engine = new WarehouseManagerEngine();
+
+        int MenuNum = 0;
 
         do {
             Messages.printMainMenuCommands();
             String input = SCANNER.nextLine();
             try {
-                menuChoice = Integer.parseInt(input);
+                MenuNum = Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                System.out.println(Messages.INVALID_INPUT);
+                System.out.println("Invalid input.");
                 continue;
             }
-            switch (menuChoice) {
-                case 1: // Start warehouse shift. / 开始仓库班次。
+            switch (MenuNum){
+                case 1: // Start warehouse shift
                     warehouse.startShift();
-                    warehouseId = warehouse.getWarehouseId();
+                    ID = warehouse.WarehouseID;
                     break;
-                case 2: // Resume last shift. / 恢复上一次暂停的班次。
+                case 2: // resume last shift
                     warehouse.resumeShift();
-                    warehouseId = warehouse.getWarehouseId();
+                    ID = warehouse.WarehouseID;
                     break;
-                case 3: // View operation history. / 查看操作历史。
+                case 3: // view operation and history
                     warehouse.printHistory();
                     break;
-                case 4: // Reset shift and warehouse. / 重置班次和仓库。
-                    warehouseId += 1;
-                    warehouse.reset(warehouseId);
+                case 4: // reset shift&warehouse
+                    ID += 1;
+                    warehouse.reset(ID);
                     System.out.println("Shift and warehouse reset.");
                     break;
-                case 5: // Exit program. / 退出程序。
+                case 5:// exit
                     break;
                 default:
-                    System.out.println(Messages.INVALID_INPUT);
+                    System.out.println("Invalid input.");
             }
 
         }
-        while (menuChoice != 5);
+        while(MenuNum != 5);
         System.out.println("Session abandoned. Goodbye!");
+
+
+
     }
 
 }

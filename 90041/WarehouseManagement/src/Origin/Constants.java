@@ -28,9 +28,12 @@ public final class Constants {
 
     public static final int BOUNDARY_THICKNESS = 2;
     public static final int START_OFFSET = 1;
-    public static final int START_ROW = 1;
-    public static final int START_COL = 1;
-    public static final int INITIAL_HISTORY_CAPACITY = 10;
-    public static final int HISTORY_GROWTH_SIZE = 10;
+
+    public static final String TYPE_MOVE = "MOVE";
+    public static final String TYPE_HIT_WALL = "HIT_WALL";
+    public static final String TYPE_HIT_RESTRICTED = "HIT_RESTRICTED";
+    public static final String TYPE_VIEW_SHELF = "VIEW_SHELF";
+    public static final String TYPE_PICK_ITEM = "PICK_ITEM";
+    public static final String TYPE_PLACE_ITEM = "PLACE_ITEM";
 
 }

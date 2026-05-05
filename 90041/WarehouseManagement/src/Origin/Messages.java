@@ -9,10 +9,6 @@
  */
 public final class Messages {
 
-    public static final String INVALID_INPUT = "Invalid input.";
-    public static final String NO_ITEMS_ON_SHELF = "No items on this shelf.";
-    public static final String CANNOT_ENTER_AREA = "You cannot enter that area.";
-
     public static void printWelcome() {
         System.out.println("Welcome to Warehouse Manager Console.");
     }
@@ -35,6 +31,22 @@ public final class Messages {
         System.out.print("> ");
     }
 
+
+
+
+
+
+
+    /*
+                Enter direction:
+                U - Up.
+                D - Down.
+                L - Left.
+                R - Right.
+                T - Deliver carried item at START (O).
+                Q - Quit to main menu.
+                >
+    */
     public static void moveFkMenu(){
         System.out.println("Enter direction:");
         System.out.println("U - Up.");

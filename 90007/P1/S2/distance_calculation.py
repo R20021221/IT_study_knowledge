@@ -20,8 +20,7 @@ def great_circle_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float
     (lat, lon) points, using the spherical law of cosines [Sinnott 1984]."""
     phi1, phi2 = radians(lat1), radians(lat2)
     dlam       = radians(lon2 - lon1)
-    cos_c      = min(1.0, sin(phi1) * sin(phi2) +
-                          cos(phi1) * cos(phi2) * cos(dlam))
+    cos_c      = min(1.0, sin(phi1) * sin(phi2) + cos(phi1) * cos(phi2) * cos(dlam))
     return R_EARTH_KM * acos(cos_c)
 
 

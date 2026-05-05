@@ -1,69 +1,67 @@
+/**
+ * Student Name - Guancheng Rong
+ * Student Id - 1856981
+ * Student email - guancheng.rong@student.unimelb.edu.au
+ * AI Usage Declaration -
+ */
+
 public class ForkPosition {
 
-    public int F_row;
-    public int F_col;
-    private String F_order;
+    private int row;
+    private int col;
+    private String carriedItem;
 
-    private WarehouseMap map;
+    private int moves; // Forklift move counter. / 叉车移动次数计数。
+    private int hits; // Forklift blocked-move counter. / 叉车受阻次数计数。
 
-    public void setF_order(String order) {
-        this.F_order = order;
+    public void initialize() { // Reset forklift state to START. / 将叉车状态重置到起点。
+        int r = Constants.START_ROW;
+        int c = Constants.START_COL;
+
+        this.moves = 0;
+        this.hits = 0;
+        this.carriedItem = null;
+        this.row = r;
+        this.col = c;
     }
 
-    public void initialize(){ // initialize the fork's position
-        int r = 1;
-        int c = 1;
-
-        this.F_row = r;
-        this.F_col = c;
+    public int getRow() {
+        return row;
     }
 
-    private void printPosition(int r, int c){
-        System.out.printf("(%d,%d)", r, c);
+    public int getCol() {
+        return col;
     }
 
-    public void movement(int r, int c, String order){
-        switch(order){
-            case "U": // go up
-                c += 1;
-                if(map.check(r, c)){
-                    break;
-                }
-                else{
-                    c -= 1;
-                    break;
-                }
+    public String getCarriedItem() {
+        return carriedItem;
+    }
 
-            case "D":
-                c -= 1;
-                if(map.check(r, c)){
-                    break;
-                }
-                else{
-                    c += 1;
-                    break;
-                }
+    public int getMoves() {
+        return moves;
+    }
 
-            case "L":
-                r -= 1;
-                if(map.check(r, c)){
-                    break;
-                }
-                else{
-                    r += 1;
-                    break;
-                }
+    public int getHits() {
+        return hits;
+    }
 
-            case "R":
-                r += 1;
-                if(map.check(r, c)){
-                    break;
-                }
-                else{
-                    r -= 1;
-                    break;
-                }
+    public void setRow(int row) {
+        this.row = row;
+    }
 
-        }
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    public void setCarriedItem(String item) {
+        this.carriedItem = item;
+    }
+
+    public void incrementMoves() {
+        this.moves++;
+    }
+
+    public void incrementHits() {
+        this.hits++;
     }
 }
