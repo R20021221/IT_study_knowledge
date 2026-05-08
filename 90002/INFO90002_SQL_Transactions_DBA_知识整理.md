@@ -152,7 +152,6 @@ SELECT [ALL | DISTINCT] select_expr [, select_expr ...]
 ```
 
 > **顺序非常重要**！`HAVING` 不能写在 `GROUP BY` 或 `WHERE` 之前。
->
 > **逻辑执行顺序**（不同于书写顺序）：FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT
 
 ### 3.2 投影（Projection）与选择（Selection） `[SQL1 p15-16]`
