@@ -60,11 +60,44 @@
 
 ---
 
+## Group 2 — Transport Layer（已完成 · 2026-05-11）
+
+**学习范围**：传输层（两份 PDF），共 2 份 PDF 合并为 1 份 md。
+
+### [Transport-layer.md](./Transport-layer.md)
+
+- **源 PDF**：`Transport-Layer-1.pdf`、`Transport-Layer-2&3&4.pdf`
+- **Covers**：
+  - 传输层在协议栈中的位置与职责（与网络层的分工、Transport Entity 位置）
+  - Transport Layer Encapsulation：TPDU / Segment 的封装关系
+  - Transport Service Primitives：LISTEN / CONNECT / SEND / RECEIVE / DISCONNECT
+  - Connection Establishment：三次握手 (Three-way Handshake)，防延迟/重复包
+  - Connection Release：非对称 vs 对称断开，两军问题 (Two-Army Problem)，计时器与有限重试
+  - Addressing：NSAP / TSAP / Port，三种分配方式（Static / Portmapper / inetd）
+  - Multiplexing（多路复用）
+  - Programming using Sockets：Berkeley Socket 流程（socket→bind→listen→accept→read/write→close），多线程服务器
+  - UDP：无连接特点、8 字节 Segment 结构、Checksum 伪头部、端口号三段分类（Well-Known / Registered / Dynamic）、RPC（Client Stub / Server Stub）
+  - TCP：面向连接全双工字节流、20 字节固定头部全字段（Sequence / Acknowledgement / Flags / Window Size / Checksum / Options）
+  - TCP 控制标志：SYN / FIN / ACK / RST / PSH / URG / ECE / CWR 的含义与触发场景
+  - TCP Connection Management：三次握手建立、对称四次挥手释放、FSM 状态机
+  - TCP Window Management：滑动窗口 (Sliding Window)，流量控制机制
+  - TCP Timer Management：SRTT（平滑往返时间）动态计时器公式
+  - QoS 四指标：Bandwidth / Reliability / Delay / Jitter
+  - Jitter Control：接收端缓冲、慢包优先发送
+  - QoS 实现技术：Over-provisioning / Buffering / Traffic Shaping (Leaky Bucket) / Resource Reservation / Admission Control / Proportional Routing / Packet Scheduling (WFQ)
+  - Flow Control vs Congestion Control 对比
+  - TCP Congestion Control：Slow Start（慢启动，指数增长）、AIMD（加法增大乘法减小）
+  - TCP Tahoe：慢启动 + AIMD，丢包后重启慢启动
+  - TCP Reno：Tahoe + Fast Recovery（三重复 ACK 后快速恢复，不重启慢启动）
+  - 无线网络拥塞控制：传输错误 vs 拥塞的区分问题 (Masking Strategy)
+
+---
+
 ## 待学习 / 计划中的分组
 
 > 后续学习新一组时在此新增条目；每组处理完后移到上方"已完成"部分。
 
-- Group 2：*（待定，等待用户指定下一组 PDF）*
+- Group 3：*（待定，等待用户指定下一组 PDF）*
 
 ---
 
