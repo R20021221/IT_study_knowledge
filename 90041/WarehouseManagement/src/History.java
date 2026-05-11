@@ -8,8 +8,7 @@
 public class History {
     private int warehouseId;
 
-    private OperationType type; // Operation type recorded in history. / 历史记录中的操作类型。
-    private String item;
+    private OperationType type; // Operation type recorded in history.    private String item;
     private int moves;
     private int hits;
     private int row;

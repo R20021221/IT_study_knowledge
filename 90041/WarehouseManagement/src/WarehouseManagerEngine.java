@@ -51,23 +51,23 @@ public class WarehouseManagerEngine {
                 continue;
             }
             switch (menuChoice) {
-                case 1: // Start warehouse shift. / 开始仓库班次。
+                case 1: // Start warehouse shift. 
                     warehouse.startShift();
                     warehouseId = warehouse.getWarehouseId();
                     break;
-                case 2: // Resume last shift. / 恢复上一次暂停的班次。
+                case 2: // Resume last shift. 
                     warehouse.resumeShift();
                     warehouseId = warehouse.getWarehouseId();
                     break;
-                case 3: // View operation history. / 查看操作历史。
+                case 3: // View operation history.
                     warehouse.printHistory();
                     break;
-                case 4: // Reset shift and warehouse. / 重置班次和仓库。
+                case 4: // Reset shift and warehouse.
                     warehouseId += 1;
                     warehouse.reset(warehouseId);
                     System.out.println("Shift and warehouse reset.");
                     break;
-                case 5: // Exit program. / 退出程序。
+                case 5: // Exit program.
                     break;
                 default:
                     System.out.println(Messages.INVALID_INPUT);
