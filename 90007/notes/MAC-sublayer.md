@@ -34,7 +34,7 @@ Data Link Layer（数据链路层）包含两个子层：
 - **LLC (Logical Link Control)**：负责流量控制、差错控制等。
 - **MAC (Medium Access Control)**：**决定谁可以使用共享信道来发送数据**。
 
-两种网络类型：
+两种网络类型：（一般来说最核心的网络划分形式）
 
 - **Point-to-point network（点对点网络）**：发送方-接收方是专用的一对，**不存在传输争用 (transmission contention)**。
 - **Broadcast network（广播网络）**：多个站点共享一个信道，**必须解决"谁能发、何时发"的问题**。
@@ -49,8 +49,8 @@ Data Link Layer（数据链路层）包含两个子层：
 
 | 分类 | 思路 | 特点 |
 |------|------|------|
-| **Static Channel Allocation（静态）** | 事先把信道划分好，每个用户固定占一份 | 简单，但不灵活 |
-| **Dynamic Channel Allocation（动态）** | 实时根据需求分配 | 灵活，适合突发流量 |
+| **Static Channel Allocation（静态）** | 事先把信道划分好，每个用户固定占一份 | 简单，但不灵活 | （电话）
+| **Dynamic Channel Allocation（动态）** | 实时根据需求分配 | 灵活，适合突发流量 | WIFI、蜂窝网络
 
 ### 1.1 静态信道分配
 
