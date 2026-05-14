@@ -1,0 +1,4 @@
+interface:
+  display_name: "Course Index Builder"
+  short_description: "Build thematic course knowledge maps."
+  default_prompt: "Use $course-index-builder to build a structured Markdown course knowledge index with thematic blocks, lecture source tags, prerequisites, and beyond-lecture extensions."
